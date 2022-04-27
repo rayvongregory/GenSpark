@@ -1,0 +1,32 @@
+
+It's the year 2222 and Goblins have invaded Earth.
+The Goblins' goal is overthrow humans and rule the Earth.
+The Humans must defend themselves with any items they can find to defeat the Goblins.
+Humans and Goblins will take turns occupying the spaces on the map.
+Humans and Goblins can only move one space per round.
+Humans can move around the map using directional keys 'n', 's', 'e', and 'w',
+which correlate to up, down, right, and left, respectfully.
+Goblins only want to fight so each turn they will automatically move towards the closest Human.
+Goblins are also scavengers and will pick up any items they find on the map. These items are of no direct
+benefit to the goblins but they will pick them up just so that the Humans can't use them.
+
+In the event that a Human defeats a Goblin, two things will happen:
+1. The Goblin will drop all of their loot and the Human will have the opportunity to collect what they want
+from the pile and add them to their inventory.
+2. The Human's mental strength attribute will increase, which will improve their chances of surviving their
+subsequent battles.
+
+If a Goblin defeats a Human, two things will happen:
+1. The Goblin will receive the Human's entire inventory.
+2. The Goblin's aggression will increase, which will improve their chances of surviving their subsequent battles.
+
+When a Human and Goblin are on the same space they will enter combat.
+The player with the higher stats will have a higher chance at surviving the attack, but having
+better stats DOES NOT guarantee victory, so be wise in your battles.
+When two or more players of the same type occupy the same space, they will heal each other.
+When two or more Humans are healing, their mental strength will increase as well.
+When two or more Goblins are healing, their aggression will also increase.
+When healing, players are more vulnerable so all will be defeated if attacked.
+
+The first team to defeat every member of the other team will win and have total control of Earth.
+Good luck.
