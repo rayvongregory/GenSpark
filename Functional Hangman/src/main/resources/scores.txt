@@ -1,0 +1,4 @@
+Ray,300
+Ray,650
+Ted,250
+Ezekiel,150
