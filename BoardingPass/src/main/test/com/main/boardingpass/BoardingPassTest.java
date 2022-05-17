@@ -74,4 +74,68 @@ class BoardingPassTest {
         assertNotEquals("2121-1-14", BoardingPass.getDepartureDate(2222, 1,14));
         assertNotEquals("1111-1-1", BoardingPass.getDepartureDate(1111, 1,1));
     }
+
+    @Test
+    void isInvalidEmail() { // email is trimmed before entering function
+        assertTrue(BoardingPass.isInvalidEmail(""));
+        assertTrue(BoardingPass.isInvalidEmail("."));
+        assertTrue(BoardingPass.isInvalidEmail("@"));
+        assertTrue(BoardingPass.isInvalidEmail("@."));
+        assertTrue(BoardingPass.isInvalidEmail(".com"));
+        assertTrue(BoardingPass.isInvalidEmail("@.com"));
+        assertTrue(BoardingPass.isInvalidEmail("-.com"));
+        assertTrue(BoardingPass.isInvalidEmail("thisisinvalid.com"));
+        assertTrue(BoardingPass.isInvalidEmail("3@_g.com"));
+        assertFalse(BoardingPass.isInvalidEmail("thisisnotinvalid@gmail.com"));
+        assertFalse(BoardingPass.isInvalidEmail("3@g.com"));
+        assertFalse(BoardingPass.isInvalidEmail("3_@g.com"));
+        assertFalse(BoardingPass.isInvalidEmail("3-@g.com"));
+        assertFalse(BoardingPass.isInvalidEmail("69@mmm.wow"));
+    }
+
+    @Test
+    void isInvalidPhoneNumber() {
+        assertTrue(BoardingPass.isInvalidPhoneNumber("XXX-XXX-XXXX"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("XXXXXXXXXX"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("111-1111111"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("2222222222"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("333333-333"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("4-444-444-4444"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("XXXXXX-XXXX"));
+        assertTrue(BoardingPass.isInvalidPhoneNumber("XXX-XXXXXXX"));
+        assertFalse(BoardingPass.isInvalidPhoneNumber("860-111-1111"));
+        assertFalse(BoardingPass.isInvalidPhoneNumber("336-222-2222"));
+        assertFalse(BoardingPass.isInvalidPhoneNumber("919-333-3333"));
+        assertFalse(BoardingPass.isInvalidPhoneNumber("696-969-6969"));
+    }
+
+    @Test
+    void isUnrecognizedGender() { // strings are capitalized before entering the function
+        assertTrue(BoardingPass.isUnrecognizedGender(""));
+        assertTrue(BoardingPass.isUnrecognizedGender(" "));
+        assertTrue(BoardingPass.isUnrecognizedGender("  "));
+        assertTrue(BoardingPass.isUnrecognizedGender("0"));
+        assertTrue(BoardingPass.isUnrecognizedGender("00"));
+        assertTrue(BoardingPass.isUnrecognizedGender("000"));
+        assertTrue(BoardingPass.isUnrecognizedGender("A"));
+        assertTrue(BoardingPass.isUnrecognizedGender("B"));
+        assertTrue(BoardingPass.isUnrecognizedGender("C"));
+        assertTrue(BoardingPass.isUnrecognizedGender("D"));
+        assertTrue(BoardingPass.isUnrecognizedGender("E"));
+        assertTrue(BoardingPass.isUnrecognizedGender("F"));
+        assertTrue(BoardingPass.isUnrecognizedGender("G"));
+        assertFalse(BoardingPass.isUnrecognizedGender("M"));
+        assertFalse(BoardingPass.isUnrecognizedGender("W"));
+    }
+
+    @Test
+    void addDiscountIfApplicableTest() {
+        assertEquals(100.00, BoardingPass.addDiscountIfApplicable(100, 30, 'M'));
+        assertEquals(75.00, BoardingPass.addDiscountIfApplicable(100, 30, 'F'));
+        assertEquals(40.00, BoardingPass.addDiscountIfApplicable(100, 60, 'M'));
+        assertEquals(40.00, BoardingPass.addDiscountIfApplicable(100, 60, 'F'));
+        assertEquals(50.00, BoardingPass.addDiscountIfApplicable(100, 10, 'M'));
+        assertEquals(240.88, BoardingPass.addDiscountIfApplicable(321.18, 30, 'F'));
+        assertEquals(128.47, BoardingPass.addDiscountIfApplicable(321.18, 70, 'F'));
+    }
 }

@@ -1,23 +1,22 @@
 package com.main.boardingpass;
 
+import com.amadeus.Amadeus;
+import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
+import com.amadeus.referenceData.Locations;
 import com.amadeus.resources.FlightOfferSearch;
-import com.amadeus.resources.FlightPrice;
-import com.amadeus.shopping.FlightOffers;
+import com.amadeus.resources.Location;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.validator.routines.EmailValidator;
 
-import java.io.*;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
-import com.amadeus.Amadeus;
-import com.amadeus.Params;
-
-import com.amadeus.referenceData.Locations;
-import com.amadeus.resources.Location;
-import java.time.LocalDateTime;
 
 public class BoardingPass extends Application {
     private static final Scanner scanner = new Scanner(System.in);
@@ -41,6 +40,10 @@ public class BoardingPass extends Application {
     }; // Number of days in each month, February is added later
     private static String clientName;
     private static int clientAge;
+    private static String clientEmail;
+    private static String clientPhoneNumber;
+    private static char clientGender;
+    private static FlightOfferSearch clientFlight;
     private static final HashMap<String, Integer> numOfAdultsAndChildren = new HashMap<>(){{
         put("adults", 0);
         put("children", 0);
@@ -58,15 +61,23 @@ public class BoardingPass extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        launch();
+        getGender();
+        System.exit(0);
         System.out.println("Boarding Pass\n\n");
         clientName = getName();
-        clientAge = getAge();
         System.out.printf("We're glad you chose to book your trip with us today, %s.%n", clientName.split(" ")[0]);
-        gatherInformation();
-        selectFlight();
+        clientAge = getAge();
+        search();
         // we may want to move some of these functions to another class for readability
+    }
+
+    private static void search() throws IOException {
+        gatherInformation();
+        getFlight();
+        gatherAdditionalInformation();
+        bookTrip();
     }
 
     private static void gatherInformation() {
@@ -135,9 +146,8 @@ public class BoardingPass extends Application {
         if(D_or_A == 'D') System.out.print("Do you see the airport you wish to depart from? (Y/N)\nResponse: ");
         else System.out.print("Do you see the airport you wish to go to? (Y/N)\nResponse: ");
 
-        if(validateYesOrNo().equals("Y")) {
-            return selectCity(cities);
-        } else {
+        if(validateYesOrNo().equals("Y")) return selectCity(cities);
+        else {
             System.out.println("We're sorry you didn't find what you were looking for. Please try another search.");
             return getCity(D_or_A);
         }
@@ -154,35 +164,50 @@ public class BoardingPass extends Application {
         }
     }
 
-    private static void selectFlight() {
+    private static void getFlight() throws IOException {
         System.out.printf("Here are the flights%nFROM: %s - %s%nTO: %s - %s%n",
                 cityOfDeparture.getDetailedName(), cityOfDeparture.getIataCode(),
                 cityOfArrival.getDetailedName(), cityOfArrival.getIataCode());
         FlightOfferSearch[] flights = getFlights();
         if(flights.length == 0) {
-            // IF THERE AREN'T ANY FLIGHTS, ASK CLIENT IF THEY WANT TO PERFORM ANOTHER SEARCH OR EXIT THE APP
-            return;
+            System.out.print("Sorry, there aren't any flights going to " + cityOfDeparture.getName() + " on the date you specified.\nWould you like to try another search? (Y/N)\nResponse: )");
+            if(validateYesOrNo().equals("Y")) {
+                search();
+                return;
+            } else {
+                System.out.println("I'm sorry we weren't able to assist you today. Goodbye.");
+                System.exit(0);
+            }
         }
 
-        for(FlightOfferSearch flight : flights) {
-            String flightTotalPrice = flight.getPrice().getGrandTotal();
+        for(FlightOfferSearch flight: flights) {
+            String tripTotalPrice = flight.getPrice().getGrandTotal();
             FlightOfferSearch.Itinerary[] flightItineraries = flight.getItineraries();
-            for(FlightOfferSearch.Itinerary itinerary : flightItineraries) {
-                String flightDuration = itinerary.getDuration();
+            for(FlightOfferSearch.Itinerary itinerary: flightItineraries) {
+                String tripDuration = itinerary.getDuration();
                 FlightOfferSearch.SearchSegment[] searchSegments = itinerary.getSegments();
-                for(FlightOfferSearch.SearchSegment searchSegment : searchSegments) {
-                    String departingFrom = searchSegment.getDeparture().toString();
-                    String departingAt = searchSegment.getDeparture().getAt();
-                    String flyingTo = searchSegment.getArrival().toString();
-                    String arrivingAt = searchSegment.getArrival().getAt();
-
-                    // format and display all flight information
-                    // user picks the flight they want
-                    // user enters String email, String phone number, and char gender
-                    // if gender == 'F', provide 25% discount iff they don't qualify for the other discounts
-
-                }
+                printFlights(searchSegments);
+                System.out.println("Trip duration: " + tripDuration);
+                System.out.println("Trip cost: " + tripTotalPrice);
             }
+        }
+        System.out.print("Would you like to book any of these trips today? (Y/N)\nResponse: ");
+        if(validateYesOrNo().equals("Y")) {
+            selectFlight(flights);
+        } else {
+            System.out.println("We're sorry you didn't find what you were looking for. Please try another search.");
+            search();
+        }
+    }
+
+    private static void selectFlight(FlightOfferSearch[] flights) {
+        System.out.print("Enter the number associated with your choice.\nResponse: ");
+        try {
+            int flight = Integer.parseInt(scanner.nextLine());
+            clientFlight = flights[flight-1];
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            issueWithInput();
+            selectFlight(flights);
         }
     }
 
@@ -236,7 +261,67 @@ public class BoardingPass extends Application {
         }
     }
 
-    // HELPER FUNCTIONS //
+    private static void gatherAdditionalInformation() {
+        clientEmail = getEmail();
+        clientPhoneNumber = getPhoneNumber();
+        clientGender = getGender();
+    }
+
+    private static String getEmail() {
+        System.out.print("Enter your email address.\nEmail: ");
+        String email = scanner.nextLine().trim();
+        if(isInvalidEmail(email)) {
+            issueWithInput();
+            return getEmail();
+        } else return email;
+    }
+
+    private static String getPhoneNumber() {
+        System.out.print("Enter your phone number in XXX-XXX-XXXX format.\nPhone Number: ");
+        String phoneNumber = scanner.nextLine();
+        if(isInvalidPhoneNumber(phoneNumber)) {
+            issueWithInput();
+            return getPhoneNumber();
+        } else return phoneNumber;
+    }
+
+    private static char getGender() {
+        System.out.print("Enter M if you are man or W if you are a woman.\nGender: ");
+        String gender = scanner.nextLine().toUpperCase();
+        if(isUnrecognizedGender(gender)) {
+            issueWithInput();
+            return getGender();
+        } else return gender.charAt(0);
+    }
+
+    private static void bookTrip() throws IOException {
+        double clientTripCost = addDiscountIfApplicable(Double.parseDouble(clientFlight.getPrice().getGrandTotal()), clientAge, clientGender);
+        BookedTrip bookedTrip = new BookedTrip(clientName, clientAge, clientEmail, clientPhoneNumber, clientGender,
+                clientFlight, cityOfDeparture, cityOfArrival, departureDate, clientTripCost);
+        bookedTrip.generateBoardingPass();
+        bookedTrip.getBoardingPass();
+    }
+
+    public static double addDiscountIfApplicable(double costBeforeDiscount, int clientAge, char clientGender) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        if(clientAge <= 12) return Double.parseDouble(df.format(costBeforeDiscount * 0.5));
+        if(clientAge >= 60) return Double.parseDouble(df.format(costBeforeDiscount * 0.4));
+        if(clientGender == 'F') return Double.parseDouble(df.format(costBeforeDiscount * 0.75));
+        return costBeforeDiscount;
+    }
+
+    // HELPER FUNCTIONS & TESTABLE FUNCTIONS //
+
+    private static void printFlights(FlightOfferSearch.SearchSegment[] searchSegments) {
+        for(int i = 1; i < searchSegments.length; i++) {
+            String departingFrom = searchSegments[i-1].getDeparture().toString();
+            String departingAt = searchSegments[i-1].getDeparture().getAt();
+            String flyingTo = searchSegments[i-1].getArrival().toString();
+            String arrivingAt = searchSegments[i-1].getArrival().getAt();
+            System.out.printf("%-2s. Departing from: %s\n%-2s Departing at: %s\n%-2s Arriving to: %s\n%-2s Arriving at: %s",
+                    i, departingFrom, "", departingAt, "", flyingTo, "", arrivingAt);
+        }
+    }
 
     private static void printLocations(Location[] locations) {
         for(int i = 1; i < locations.length; i++) {
@@ -308,5 +393,20 @@ public class BoardingPass extends Application {
 
     public static String getDepartureDate(int yearOfTravel, int monthOfTravel, int dateOfTravel) { // converts data to YYYY-MM-DD format for http request
         return String.format("%s-%02d-%02d", yearOfTravel, monthOfTravel, dateOfTravel); // %02d ensures that month and date are 2 digits
+    }
+
+    public static boolean isInvalidEmail(String email) {
+        EmailValidator validator = EmailValidator.getInstance();
+        return !validator.isValid(email);
+    }
+
+    public static boolean isInvalidPhoneNumber(String phoneNumber) {
+        return !phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}");
+    }
+
+    public static boolean isUnrecognizedGender(String gender) {
+        if(gender.length() != 1) return true;
+        char g = gender.charAt(0);
+        return g != 'M' && g != 'W';
     }
 }
