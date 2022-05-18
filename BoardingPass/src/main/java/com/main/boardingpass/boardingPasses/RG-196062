@@ -1,0 +1,26 @@
+BOARDING NO: RG-196062
+
+PASSENGER INFO
+	Name: Rayvon Gregory
+	Age: 26
+	Gender: M
+	Email: rg@genspark.net
+	Phone Number: 111-111-1111
+
+TRIP DETAILS
+	Flying from: HARTFORD/CT/US:BRADLEY INTL - BDL
+	Flying to: CHARLOTTE/NC/US:DOUGLAS INTL - CLT
+	On: 2022-05-20
+
+	Trip Cost: 203.25
+
+	Itinerary:
+		Departing: BDL -- 2022-05-20T10:30:00 -- Terminal null
+		Arriving: IAD -- 2022-05-20T11:49:00 -- Terminal IAD
+		Trip Duration: PT1H19M
+
+		Departing: IAD -- 2022-05-20T12:34:00 -- Terminal null
+		Arriving: CLT -- 2022-05-20T14:11:00 -- Terminal CLT
+		Trip Duration: PT1H37M
+
+		Total Trip Duration: PT3H41M

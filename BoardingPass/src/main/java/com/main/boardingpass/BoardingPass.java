@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
-
 public class BoardingPass extends Application {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Amadeus amadeus = Amadeus
@@ -63,17 +62,15 @@ public class BoardingPass extends Application {
 
     public static void main(String[] args) throws IOException {
 //        launch();
-        getGender();
-        System.exit(0);
-        System.out.println("Boarding Pass\n\n");
+        System.out.println("Boarding Pass\n");
         clientName = getName();
         System.out.printf("We're glad you chose to book your trip with us today, %s.%n", clientName.split(" ")[0]);
         clientAge = getAge();
-        search();
+        searchAndBook();
         // we may want to move some of these functions to another class for readability
     }
 
-    private static void search() throws IOException {
+    private static void searchAndBook() throws IOException {
         gatherInformation();
         getFlight();
         gatherAdditionalInformation();
@@ -119,7 +116,6 @@ public class BoardingPass extends Application {
     private static Location[] getCities(Character D_or_A ) {
         if (D_or_A == 'D') System.out.print("Please enter the name of the city you'll be departing from.\nDeparting from: ");
         else System.out.print("Please enter the name of the city you're going to.\nGoing to: ");
-
         String city = scanner.nextLine().trim();
         if(city.length() == 0) {
             issueWithInput();
@@ -137,7 +133,7 @@ public class BoardingPass extends Application {
     }
 
     private static Location getCity(Character D_or_A) {
-        Location[] cities = getCities('D');
+        Location[] cities = getCities(D_or_A);
         if(cities.length > 0) printLocations(cities);
         else {
             System.out.println("There are no results for your request. Please try another city.");
@@ -165,14 +161,14 @@ public class BoardingPass extends Application {
     }
 
     private static void getFlight() throws IOException {
-        System.out.printf("Here are the flights%nFROM: %s - %s%nTO: %s - %s%n",
+        System.out.printf("Here are the flights%nFROM: %s - %s%nTO: %s - %s%n%n",
                 cityOfDeparture.getDetailedName(), cityOfDeparture.getIataCode(),
                 cityOfArrival.getDetailedName(), cityOfArrival.getIataCode());
         FlightOfferSearch[] flights = getFlights();
         if(flights.length == 0) {
             System.out.print("Sorry, there aren't any flights going to " + cityOfDeparture.getName() + " on the date you specified.\nWould you like to try another search? (Y/N)\nResponse: )");
             if(validateYesOrNo().equals("Y")) {
-                search();
+                searchAndBook();
                 return;
             } else {
                 System.out.println("I'm sorry we weren't able to assist you today. Goodbye.");
@@ -180,15 +176,15 @@ public class BoardingPass extends Application {
             }
         }
 
-        for(FlightOfferSearch flight: flights) {
+        for(int i = 1; i <= flights.length; i++) {
+            FlightOfferSearch flight = flights[i-1];
             String tripTotalPrice = flight.getPrice().getGrandTotal();
             FlightOfferSearch.Itinerary[] flightItineraries = flight.getItineraries();
             for(FlightOfferSearch.Itinerary itinerary: flightItineraries) {
                 String tripDuration = itinerary.getDuration();
                 FlightOfferSearch.SearchSegment[] searchSegments = itinerary.getSegments();
-                printFlights(searchSegments);
-                System.out.println("Trip duration: " + tripDuration);
-                System.out.println("Trip cost: " + tripTotalPrice);
+                System.out.printf("%3s. ", i);
+                printFlights(searchSegments, tripDuration, tripTotalPrice);
             }
         }
         System.out.print("Would you like to book any of these trips today? (Y/N)\nResponse: ");
@@ -196,7 +192,7 @@ public class BoardingPass extends Application {
             selectFlight(flights);
         } else {
             System.out.println("We're sorry you didn't find what you were looking for. Please try another search.");
-            search();
+            searchAndBook();
         }
     }
 
@@ -257,7 +253,7 @@ public class BoardingPass extends Application {
             else return date;
         } catch (NumberFormatException | InputMismatchException e) {
             issueWithInput();
-            return getDateOfTravel(monthOfTravel, currentMonth, currentDayOfTheMonth);
+            return getDateOfTravel(currentDayOfTheMonth, currentMonth, monthOfTravel);
         }
     }
 
@@ -299,7 +295,10 @@ public class BoardingPass extends Application {
         BookedTrip bookedTrip = new BookedTrip(clientName, clientAge, clientEmail, clientPhoneNumber, clientGender,
                 clientFlight, cityOfDeparture, cityOfArrival, departureDate, clientTripCost);
         bookedTrip.generateBoardingPass();
-        bookedTrip.getBoardingPass();
+        System.out.printf("\nYou're all set, %s!\n\nHere is your boarding pass:\n\n", clientName.split(" ")[0]);
+        System.out.println(bookedTrip.getBoardingPass());
+        System.out.println("\nWe thank you for your business and we'll see you soon! Goodbye.");
+        System.exit(0);
     }
 
     public static double addDiscountIfApplicable(double costBeforeDiscount, int clientAge, char clientGender) {
@@ -312,20 +311,28 @@ public class BoardingPass extends Application {
 
     // HELPER FUNCTIONS & TESTABLE FUNCTIONS //
 
-    private static void printFlights(FlightOfferSearch.SearchSegment[] searchSegments) {
-        for(int i = 1; i < searchSegments.length; i++) {
-            String departingFrom = searchSegments[i-1].getDeparture().toString();
-            String departingAt = searchSegments[i-1].getDeparture().getAt();
-            String flyingTo = searchSegments[i-1].getArrival().toString();
-            String arrivingAt = searchSegments[i-1].getArrival().getAt();
-            System.out.printf("%-2s. Departing from: %s\n%-2s Departing at: %s\n%-2s Arriving to: %s\n%-2s Arriving at: %s",
-                    i, departingFrom, "", departingAt, "", flyingTo, "", arrivingAt);
+    private static void printFlights(FlightOfferSearch.SearchSegment[] searchSegments, String tripDuration, String tripTotalCost) {
+        for(int i = 0; i < searchSegments.length; i++) {
+            String departingFrom = searchSegments[i].getDeparture().getIataCode();
+            String departingAt = searchSegments[i].getDeparture().getAt();
+            String flyingTo = searchSegments[i].getArrival().getIataCode();
+            String arrivingAt = searchSegments[i].getArrival().getAt();
+            if(i == 0) {
+                System.out.printf("Departing from: %s\n%4s Departing at: %s\n%4s Arriving to: %s\n%4s Arriving at: %s\n\n",
+                        departingFrom, "", departingAt, "", flyingTo, "", arrivingAt);
+            } else {
+                System.out.printf("%4s Departing from: %s\n%4s Departing at: %s\n%4s Arriving to: %s\n%4s Arriving at: %s\n\n",
+                        "", departingFrom, "", departingAt, "", flyingTo, "", arrivingAt);
+            }
         }
+        System.out.printf("%4s Trip duration: %s\n", "", tripDuration);
+        System.out.printf("%4s Trip cost: %s\n\n", "", tripTotalCost);
+        System.out.println("-".repeat(40)+"\n");
     }
 
     private static void printLocations(Location[] locations) {
-        for(int i = 1; i < locations.length; i++) {
-            System.out.printf("%s. %s - %s%n", i, locations[i-1].getDetailedName(), locations[i-1].getIataCode());
+        for(int i = 1; i <= locations.length; i++) {
+            System.out.printf("%2s. %s - %s%n", i, locations[i-1].getDetailedName(), locations[i-1].getIataCode());
         }
     }
 

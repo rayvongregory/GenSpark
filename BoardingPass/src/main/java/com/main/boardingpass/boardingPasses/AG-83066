@@ -1,0 +1,26 @@
+BOARDING NO: AG-83066
+
+PASSENGER INFO
+	Name: Anthony Garcia
+	Age: 25
+	Gender: M
+	Email: ag@genspark.net
+	Phone Number: 333-333-3333
+
+TRIP DETAILS
+	Flying from: WASHINGTON/DC/US - WAS
+	Flying to: ATLANTA/GA/US:HARTSFIELD-JACKS - ATL
+	On: 2022-07-25
+
+	Trip Cost: 577.35
+
+	Itinerary:
+		Departing: DCA -- 2022-07-25T16:20:00 -- Terminal B
+		Arriving: DTW -- 2022-07-25T17:59:00 -- Terminal DTW
+		Trip Duration: PT1H39M
+
+		Departing: DTW -- 2022-07-25T19:34:00 -- Terminal EM
+		Arriving: ATL -- 2022-07-25T21:35:00 -- Terminal ATL
+		Trip Duration: PT2H1M
+
+		Total Trip Duration: PT5H15M

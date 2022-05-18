@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -41,44 +40,49 @@ public class BookedTrip {
         this.clientTotalCost = clientTotalCost;
     }
 
-    public String getClientName() {
-        return clientName;
-    }
-
-    public int getClientAge() {
-        return clientAge;
-    }
-
-    public String getClientEmail() {
-        return clientEmail;
-    }
-
-    public String getClientPhoneNumber() {
-        return clientPhoneNumber;
-    }
-
-    public char getClientGender() {
-        return clientGender;
-    }
-
-    public FlightOfferSearch getClientFlight() { return clientFlight; }
-
-    public double getClientTotalCost() { return clientTotalCost; }
+//    public String getClientName() {
+//        return clientName;
+//    }
+//
+//    public int getClientAge() {
+//        return clientAge;
+//    }
+//
+//    public String getClientEmail() {
+//        return clientEmail;
+//    }
+//
+//    public String getClientPhoneNumber() {
+//        return clientPhoneNumber;
+//    }
+//
+//    public char getClientGender() {
+//        return clientGender;
+//    }
+//
+//    public FlightOfferSearch getClientFlight() { return clientFlight; }
+//
+//    public double getClientTotalCost() { return clientTotalCost; }
 
     private String generateBoardingNumber() {
         String[] names = clientName.split(" ");
-        char firstInitial = names[0].charAt(0);
-        char lastInitial = names[1].charAt(0);
-        Random r = new Random();
-        DecimalFormat df = new DecimalFormat("0.000000");
-        int randomNumbers = (int) Double.parseDouble(df.format(r.nextDouble())) * 1000000;
-        String boardingNumber = String.format("%s%s-%s", firstInitial, lastInitial, randomNumbers);
+        String randomNumbers = generateSixRandomNumbers();
+        String boardingNumber = String.format("%s%s-%s", names[0].charAt(0), names[1].charAt(0), randomNumbers);
         if(boardingNumbers.contains(boardingNumber)) return generateBoardingNumber();
         else {
             boardingNumbers.add(boardingNumber);
             this.boardingNumber = boardingNumber;
             return boardingNumber;
         }
+    }
+
+    private String generateSixRandomNumbers() {
+        Random r = new Random();
+        StringBuilder sixRandomNumbers = new StringBuilder();
+        for(int i = 0; i < 6; i++) {
+            sixRandomNumbers.append(r.nextInt(10));
+        }
+        return sixRandomNumbers.toString();
     }
 
     public void generateBoardingPass() throws IOException {

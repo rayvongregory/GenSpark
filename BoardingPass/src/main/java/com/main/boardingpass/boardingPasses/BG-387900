@@ -1,0 +1,22 @@
+BOARDING NO: BG-387900
+
+PASSENGER INFO
+	Name: Brian Glenn
+	Age: 37
+	Gender: M
+	Email: bg@genspark.net
+	Phone Number: 000-000-0000
+
+TRIP DETAILS
+	Flying from: LOS ANGELES/CA/US:LOS ANGELES - LAX
+	Flying to: NEW YORK/NY/US:JOHN F KENNEDY - JFK
+	On: 2022-05-28
+
+	Trip Cost: 143.01
+
+	Itinerary:
+		Departing: LAX -- 2022-05-28T06:00:00 -- Terminal 2
+		Arriving: JFK -- 2022-05-28T14:28:00 -- Terminal JFK
+		Trip Duration: PT5H28M
+
+		Total Trip Duration: PT5H28M
