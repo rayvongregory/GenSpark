@@ -1,120 +1,175 @@
+import com.github.dhiraj072.randomwordgenerator.RandomWordGenerator;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    final static int MAX_NUM_GUESSES = 7;
     public static void main(String[] args) throws IOException {
-        gameIntro();
-        Player player = new Player(Player.getName());
-        println(String.format("Nice to meet you, %s. Let's play!", player));
-        playGame(player);
+        System.out.println(Files.readString(Paths.get("src/main/java/Art/Introduction")));
+        playGame(getPlayerName());
     }
-    public static void playGame(Player player) throws IOException {
-        Scanner userInput = new Scanner(System.in);
-        player.setNumIncorrectGuesses(0);
-        Word randomWord = new Word();
-        String wordOrPhrase = "word";
-        if(randomWord.isPhrase()) {
-            randomWord.setCorrectLetters(" ");
-            wordOrPhrase = "phrase";
+
+    private static void playGame(String playerName) throws IOException {
+        String randomWordOrPhrase = getRandomWordOrPhrase();
+        nextRound(playerName, randomWordOrPhrase, randomWordOrPhrase.contains(" ") ? " " : "", "", false, new Scanner(System.in));
+    }
+
+    private static String getPlayerName() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("What's your name?\nName: ");
+        String name = scanner.nextLine();
+        if (name.length() > 1) {
+            System.out.printf("Nice to meet you, %s. Let's play!%n", name);
+            return name;
+        } else {
+            System.out.println("Please enter a name with at least 2 characters.");
+            return getPlayerName();
         }
-        printBoard(player.getNumIncorrectGuesses(), randomWord.getMissedLetters(), randomWord.getRemainingLetters());
-        while(player.getNumIncorrectGuesses() < MAX_NUM_GUESSES) {
-            print("Guess a letter: ");
-            Guess guess = new Guess(userInput.nextLine().trim().toLowerCase()); // get user input
-            if(guess.isEmpty()) {
-                println("Huh? Did you say something?");
-                continue;
-            }
-            boolean validGuess = guess.isValid(player.getNumIncorrectGuesses());
-            if(!validGuess && !player.hasBeenWarned()) {
-                println("That won't count against you this time but I'll add a body part next time.");
-                player.hasNowBeenWarned();
-                continue;
-            }
-            if(!validGuess && player.getNumIncorrectGuesses() == MAX_NUM_GUESSES-1) {
-                println(String.format("Well, the %s was %s.", wordOrPhrase, randomWord));
-                if(playAgain(userInput)) playGame(player);
-                else exit(player);
-            }
-            if(!validGuess) {
-                println("That's not a valid guess so I have to add a body part.");
-                printBoard(player.incrementNumIncorrectGuesses(), randomWord.getMissedLetters(), randomWord.getRemainingLetters());
-                continue;
-            }
-            if(randomWord.hasBeenGuessed(guess.toString())) {
-                println("You already guessed that letter!");
-                continue;
-            }
-            if(randomWord.contains(guess.toString())) {
-                int charFrequency = randomWord.getCharacterFrequency(guess.toString());
-                if(charFrequency > 1) println(String.format("Nice! The %s has %s %ss.", wordOrPhrase,charFrequency, guess.toUpperCase()));
-                else println(String.format("Nice! The %s has 1 %s.", wordOrPhrase, guess.toUpperCase()));
-                randomWord.setCorrectLetters(guess.toString());
-                if(!randomWord.getRemainingLetters().contains("_")) {
-                    if(player.getNumIncorrectGuesses() > MAX_NUM_GUESSES-2) print("Took ya long enough... ");
-                    else print("Good job guessing all the letters! ");
-                    println(String.format("The %s was %s.", wordOrPhrase, randomWord));
-                    player.calculateScore(randomWord);
-                    if(playAgain(userInput)) playGame(player);
-                    else exit(player);
-                }
-                printBoard(player.getNumIncorrectGuesses(), randomWord.getMissedLetters(), randomWord.getRemainingLetters());
-                println(String.format("Would you like to guess the %s? An incorrect guess won't count against you. (yes/no)", wordOrPhrase));
-                if(yesOrNo(userInput).equals("yes")) {
-                    println(String.format("Alright, what do you think the %s is?", wordOrPhrase));
-                    String wOrP = userInput.nextLine();
-                    if(randomWord.toString().equals(wOrP)) {
-                        println(String.format("That's it! You got it! The %s was %s.", wordOrPhrase, randomWord));
-                        player.calculateScore(randomWord);
-                        if(playAgain(userInput)) playGame(player);
-                        else exit(player);
+    }
+
+    private static String getRandomWordOrPhrase() {
+        System.out.println("Give me a second to think of a random word or phrase...");
+        String randomWord = RandomWordGenerator.getRandomWord().toLowerCase();
+        System.out.println("Alright, I've got it. Let's begin!\n");
+        return randomWord;
+    }
+
+    private static void nextRound(String playerName, String randomWordOrPhrase, String correctGuesses,
+                                 String incorrectGuesses, boolean hasBeenWarned, Scanner userInput) throws IOException {
+        if (incorrectGuesses.length() == 7) {
+            System.out.printf("Sorry, you lose. The answer is %s.%n", randomWordOrPhrase);
+            if (playAgain(userInput)) {
+                playGame(playerName);
+                return;
+            } else exit(playerName);
+        }
+        int lettersLeftToGuess = (int) Arrays.stream(randomWordOrPhrase.split("")).filter(c -> !correctGuesses.contains(c)).count();
+        if (lettersLeftToGuess == 0) {
+            if (incorrectGuesses.length() > 5) System.out.print("Took ya long enough... ");
+            else System.out.print("Good job guessing all the letters! ");
+            System.out.printf("The answer was %s.%n", randomWordOrPhrase);
+            saveScore(playerName, calculateScore(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses));
+            if (playAgain(userInput)) {
+                playGame(playerName);
+                return;
+            } else exit(playerName);
+        }
+        printBoard(correctGuesses, incorrectGuesses, randomWordOrPhrase);
+        System.out.print("Guess a letter: ");
+        String guess = userInput.nextLine().trim().toLowerCase(); // get user input
+        if (guess.isEmpty()) {
+            System.out.println("Huh? Did you say something?");
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses, hasBeenWarned, userInput);
+            return;
+        }
+        boolean guessOnlyOneCharacter = guess.length() == 1;
+        if (!guessOnlyOneCharacter && !hasBeenWarned) {
+            System.out.println("You can only guess one letter at a time! That won't count against you this time but I'll add a body part next time.");
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses, true, userInput);
+            return;
+        }
+        boolean guessIsALetter = Character.isLetter(guess.charAt(0));
+        if (!guessIsALetter && !hasBeenWarned) {
+            System.out.println("You can only guess letters! That won't count against you this time but I'll add a body part next time.");
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses, true, userInput);
+        } else if (!(guessOnlyOneCharacter && guessIsALetter) && incorrectGuesses.length() == 6) {
+            System.out.print("You used your final chance to guess that? Ugh... ");
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses + guess, true, userInput);
+        } else if (!(guessOnlyOneCharacter && guessIsALetter)) {
+            System.out.println("That's not a valid guess so I have to add a body part.");
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses + guess, true, userInput);
+        } else if ((correctGuesses + incorrectGuesses).contains(guess)) {
+            System.out.println("You already guessed that letter!");
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses, hasBeenWarned, userInput);
+        } else if (randomWordOrPhrase.contains(guess)) {
+            int charFrequency = (int) Arrays.stream(randomWordOrPhrase.split("")).filter(c -> c.equals(guess)).count();
+            if (charFrequency > 1)
+                System.out.printf("Nice! The answer has %s %ss.%n", charFrequency, guess.toUpperCase());
+            else System.out.printf("Nice! The answer has 1 %s.%n", guess.toUpperCase());
+            printBoard(correctGuesses + guess, incorrectGuesses, randomWordOrPhrase);
+            int numRemainingLetters = (int) Arrays.stream(randomWordOrPhrase.split("")).filter((correctGuesses + incorrectGuesses + guess)::contains).count();
+            if (numRemainingLetters > 0) {
+                System.out.print("Would you like to guess the answer? An incorrect guess won't count against you. (yes/no)\nResponse: ");
+                if (yesOrNo(userInput).equals("yes")) {
+                    System.out.print("Alright, what do you think the answer is?\nGuess: ");
+                    if (randomWordOrPhrase.equals(userInput.nextLine())) {
+                        System.out.printf("That's it! You got it! The answer was %s.%n", randomWordOrPhrase);
+                        saveScore(playerName, calculateScore(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses));
+                        if (playAgain(userInput)) {
+                            playGame(playerName);
+                            return;
+                        } else exit(playerName);
                     } else {
-                        println("Nope! Hahahaha!");
+                        System.out.println("Nope! Hahaha!");
                     }
                 }
-            } else {
-                println(String.format("There are no %ss in the %s.", guess.toUpperCase(), wordOrPhrase));
-                randomWord.setMissedLetters(guess.toString());
-                printBoard(player.incrementNumIncorrectGuesses(), randomWord.getMissedLetters(), randomWord.getRemainingLetters());
-                if(player.getNumIncorrectGuesses() == MAX_NUM_GUESSES) {
-                    println(String.format("Sorry, you lose. The %s was %s.", wordOrPhrase, randomWord));
-                    if(playAgain(userInput)) playGame(player);
-                    else exit(player);
-                }
             }
+            nextRound(playerName, randomWordOrPhrase, correctGuesses + guess, incorrectGuesses, hasBeenWarned, userInput);
+        } else {
+            System.out.printf("There are no %ss in the answer.", guess.toUpperCase());
+            nextRound(playerName, randomWordOrPhrase, correctGuesses, incorrectGuesses + guess, hasBeenWarned, userInput);
         }
     }
-    public static void println(String s) {
-        System.out.println(s);
+
+    public static int calculateScore(String playerName, String randomWordOrPhrase, String correctGuesses, String incorrectGuesses) throws IOException {
+        int playerScore = (7 - incorrectGuesses.length()) * 100 + ((int) Arrays.stream(randomWordOrPhrase.split("")).filter(c -> !correctGuesses.contains(c)).count() * 50);
+        if (isHighScore(playerScore))
+            System.out.printf("Congratulations, %s! You've set a new high score of %s points!", playerName, playerScore);
+        else System.out.printf("You scored %s points this game.%n", playerScore);
+        return playerScore;
     }
-    public static void print(String s) {
-        System.out.print(s);
+
+    private static void saveScore(String playerName, int playerScore) throws IOException {
+        Files.writeString(Paths.get("src/main/resources/scores.txt"),
+                String.format("%s,%s", playerName, playerScore) + System.lineSeparator(),
+                StandardOpenOption.APPEND);
     }
-    public static void gameIntro() throws IOException {
-        println(Files.readString(Paths.get("src/main/java/Art/Introduction")));
+
+    public static boolean isHighScore(int score) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/scores.txt"));
+        for (String s : lines) {
+            int readScore = Integer.parseInt(s.split(",")[1]);
+            if (score <= readScore) return false;
+        }
+        return true;
     }
-    public static void printBoard(int numberOfIncorrectGuesses, String missedLetters, String remainingLetters) throws IOException {
-        println(Files.readString(Paths.get(String.format("src/main/java/Art/Case%s", numberOfIncorrectGuesses))));
-        println("Missed letters: " + missedLetters);
-        println(remainingLetters+"\n");
+
+    private static void printBoard(String correctGuesses, String incorrectGuesses, String randomWord) throws IOException {
+        System.out.println(Files.readString(Paths.get(String.format("src/main/java/Art/Case%s", incorrectGuesses.length()))));
+        System.out.println("Missed letters: " + incorrectGuesses);
+        System.out.println(getRemainingLetters(randomWord, correctGuesses) + "\n");
     }
-    public static String yesOrNo(Scanner s) {
+
+    public static String getRemainingLetters(String randomWord, String correctGuesses) {
+        String str = Arrays.toString((Arrays.stream(randomWord.split("")).map(l -> {
+            if (l.equals(" ")) return " ";
+            if (correctGuesses.contains(l)) return l;
+            return "_";
+        }).toArray())).replaceAll(", ", "");
+        return str.substring(1, str.length() - 1);
+    }
+
+    private static String yesOrNo(Scanner s) {
         String yesOrNo = s.nextLine();
-        if(!yesOrNo.equals("yes") && !yesOrNo.equals("no")) {
-            println("Sorry, please type 'yes' or 'no'.");
+        if (!yesOrNo.equals("yes") && !yesOrNo.equals("no")) {
+            System.out.print("Sorry, please type 'yes' or 'no'.\nResponse: ");
             return yesOrNo(s);
         }
         return yesOrNo;
     }
-    public static boolean playAgain(Scanner s) {
-        println("Would you like to play again? (yes/no)") ;
+
+    private static boolean playAgain(Scanner s) {
+        System.out.print("Would you like to play again? (yes/no)\nResponse: ");
         return yesOrNo(s).equals("yes");
     }
-    public static void exit(Player player) {
-        println(String.format("Thanks for playing, %s!", player));
+
+    private static void exit(String playerName) {
+        System.out.printf("Thanks for playing, %s!%n", playerName);
         System.exit(0);
     }
 }
