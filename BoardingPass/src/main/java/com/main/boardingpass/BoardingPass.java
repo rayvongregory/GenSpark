@@ -71,8 +71,8 @@ public class BoardingPass extends Application {
     }
 
     private static void searchAndBook() throws IOException {
-        gatherInformation();
-        getFlight();
+        gatherInformation(); // gathers trip information such as departure and arrival and date
+        getFlight(); // gets/stores a flight's information
         gatherAdditionalInformation();
         bookTrip();
     }
@@ -113,7 +113,7 @@ public class BoardingPass extends Application {
         return ageAsInt;
     }
 
-    private static Location[] getCities(Character D_or_A ) {
+    private static Location[] getCities(Character D_or_A ) { // api call for retrieving all airports
         if (D_or_A == 'D') System.out.print("Please enter the name of the city you'll be departing from.\nDeparting from: ");
         else System.out.print("Please enter the name of the city you're going to.\nGoing to: ");
         String city = scanner.nextLine().trim();
@@ -132,8 +132,8 @@ public class BoardingPass extends Application {
         }
     }
 
-    private static Location getCity(Character D_or_A) {
-        Location[] cities = getCities(D_or_A);
+    private static Location getCity(Character D_or_A) { // asks if they see the city they want to go to
+        Location[] cities = getCities(D_or_A); // retrieves all airports based on information gathered
         if(cities.length > 0) printLocations(cities);
         else {
             System.out.println("There are no results for your request. Please try another city.");
@@ -142,7 +142,7 @@ public class BoardingPass extends Application {
         if(D_or_A == 'D') System.out.print("Do you see the airport you wish to depart from? (Y/N)\nResponse: ");
         else System.out.print("Do you see the airport you wish to go to? (Y/N)\nResponse: ");
 
-        if(validateYesOrNo().equals("Y")) return selectCity(cities);
+        if(validateYesOrNo().equals("Y")) return selectCity(cities); // if Y, select/save that airport's info
         else {
             System.out.println("We're sorry you didn't find what you were looking for. Please try another search.");
             return getCity(D_or_A);
@@ -160,11 +160,11 @@ public class BoardingPass extends Application {
         }
     }
 
-    private static void getFlight() throws IOException {
+    private static void getFlight() throws IOException { // asks if the user sees a flight they want to book, ordered by price (ascending)
         System.out.printf("Here are the flights%nFROM: %s - %s%nTO: %s - %s%n%n",
                 cityOfDeparture.getDetailedName(), cityOfDeparture.getIataCode(),
                 cityOfArrival.getDetailedName(), cityOfArrival.getIataCode());
-        FlightOfferSearch[] flights = getFlights();
+        FlightOfferSearch[] flights = getFlights(); // gets all flights matching the query
         if(flights.length == 0) {
             System.out.print("Sorry, there aren't any flights going to " + cityOfDeparture.getName() + " on the date you specified.\nWould you like to try another search? (Y/N)\nResponse: )");
             if(validateYesOrNo().equals("Y")) {
@@ -189,7 +189,7 @@ public class BoardingPass extends Application {
         }
         System.out.print("Would you like to book any of these trips today? (Y/N)\nResponse: ");
         if(validateYesOrNo().equals("Y")) {
-            selectFlight(flights);
+            selectFlight(flights); // select a particular flight
         } else {
             System.out.println("We're sorry you didn't find what you were looking for. Please try another search.");
             searchAndBook();
@@ -207,7 +207,7 @@ public class BoardingPass extends Application {
         }
     }
 
-    private static FlightOfferSearch[] getFlights() {
+    private static FlightOfferSearch[] getFlights() { // gets all flights that match user's query
         try {
             return amadeus.shopping.flightOffersSearch.get(
                     Params.with("originLocationCode", cityOfDeparture.getIataCode())

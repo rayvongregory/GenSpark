@@ -1,0 +1,22 @@
+BOARDING NO: AG-017943
+
+PASSENGER INFO
+	Name: Anthony Garcia
+	Age: 26
+	Gender: M
+	Email: ag@genspark.net
+	Phone Number: 555-555-5555
+
+TRIP DETAILS
+	Flying from: LAS VEGAS/NV/US:HARRY REID INT - LAS
+	Flying to: NEW YORK/NY/US - NYC
+	On: 2022-06-03
+
+	Trip Cost: 132.26
+
+	Itinerary:
+		Departing: LAS -- 2022-06-03T22:26:00 -- Terminal 1
+		Arriving: EWR -- 2022-06-04T06:15:00 -- Terminal EWR
+		Trip Duration: PT4H49M
+
+		Total Trip Duration: PT4H49M
