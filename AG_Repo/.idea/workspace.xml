@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="065b80a0-c70c-4797-8de7-a5a3d7a26ba7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../AG_BoardingPass/.idea/AG_BoardingPass.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AG_BoardingPass/BoardingPassGUI.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/AG_Repo.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/BoardingPassGUI.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBlack-3zOvZ.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBlack-ZVK6J.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBlackItalic-owBnV.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBlackItalic-x3728.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBold-DOWZd.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBold-p781R.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBoldItalic-4B3w9.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratBoldItalic-ALPax.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtrabold-VGO60.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtrabold-qZ7Rx.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtraboldItalic-0WDM4.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtraboldItalic-JRmqE.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtralight-GOJpy.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtralight-jEZ6j.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtralightItalic-eZw6x.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratExtralightItalic-z8dwG.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratItalic-5187x.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratItalic-WyzEz.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratLight-6YemM.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratLight-ywBvq.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratLightItalic-9YEL7.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratLightItalic-axBzx.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratMedium-lgZ6e.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratMedium-nRxlJ.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratMediumItalic-1GPK4.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratMediumItalic-EaqM4.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratRegular-BWBEl.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratRegular-RpK6l.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratSemibold-8M8PB.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratSemibold-Yz368.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratSemiboldItalic-OVZXA.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratSemiboldItalic-rg2B9.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratThin-K7B6D.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratThin-MVY6x.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratThinItalic-2O72w.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/MontserratThinItalic-ZVK3J.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BoardingPassGUI/src/main/resources/styles/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RemoveRange/untitled104.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoardingPass/src/main/java/com/main/boardingpass/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoardingPass/src/main/java/com/main/boardingpass/BoardingPassGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoardingPass/src/main/resources/com/main/boardingpass/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../BoardingPass/src/main/resources/com/main/boardingpass/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Dragon Cave/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Dragon Cave/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Guess the Number w Exception Handling/Guess the Number w Exception Handling.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Guess the Number w Exception Handling/Guess the Number w Exception Handling.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Guess the Number w JUnit Tests/src/test/MainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Guess the Number w JUnit Tests/src/test/MainTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hangman/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Hangman/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HumansVsGoblins/out/test/HumansVsGoblins/GoblinTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../HumansVsGoblins/out/test/HumansVsGoblins/GoblinTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RemoveRange/RemoveRange.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ReverseAString2/ReverseAString2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ReverseAString2/ReverseAString2.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="29XU1Vt8aWZeGCEZ34ggm2WCK0r" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="065b80a0-c70c-4797-8de7-a5a3d7a26ba7" name="Changes" comment="" />
+      <created>1653258708851</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653258708851</updated>
+    </task>
+    <servers />
+  </component>
+</project>

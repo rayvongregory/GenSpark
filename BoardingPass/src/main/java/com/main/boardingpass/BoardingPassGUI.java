@@ -3,7 +3,7 @@ package com.main.boardingpass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class BoardingPassGUI {
     @FXML
     private Label welcomeText;
 

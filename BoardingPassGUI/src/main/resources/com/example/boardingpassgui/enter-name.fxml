@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<VBox fx:id="vbox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="475.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boardingpassgui.Controllers.EnterName">
+    <children>
+        <Label prefHeight="77.0" prefWidth="344.0" text="Boarding Pass Generator">
+            <font>
+                <Font size="30.0"/>
+            </font>
+        </Label>
+        <Label prefHeight="60.0" prefWidth="600.0" wrapText="true" alignment="CENTER" textAlignment="CENTER"
+               text="Hello, we are so glad that you are interested in booking your trip with us! ">
+            <VBox.margin>
+                <Insets bottom="30.0"/>
+            </VBox.margin>
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <Label alignment="CENTER" textAlignment="CENTER" prefHeight="25.0" prefWidth="500.0"
+               text="To get things started, please enter your full name.">
+            <font>
+                <Font size="14.0"/>
+            </font>
+            <VBox.margin>
+                <Insets bottom="15.0"/>
+            </VBox.margin>
+        </Label>
+        <TextField fx:id="textField" promptText="Full name" focusTraversable="false" prefWidth="300.0" maxWidth="300.0">
+            <VBox.margin>
+                <Insets bottom="10"/>
+            </VBox.margin>
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </TextField>
+        <Button fx:id="button" mnemonicParsing="false" onMouseClicked="#validateName" text="Submit"/>
+    </children>
+</VBox>

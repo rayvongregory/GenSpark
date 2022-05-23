@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox fx:id="vbox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="475.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boardingpassgui.Controllers.GetAdditionalInformation">
+   <Label prefHeight="77.0" prefWidth="344.0" text="Boarding Pass Generator">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Label>
+   <Label alignment="CENTER" prefHeight="60.0" prefWidth="600.0"
+          text="We need a few more pieces of information to finalize your trip. You're almost done! "
+          textAlignment="CENTER" wrapText="true">
+      <VBox.margin>
+         <Insets bottom="30.0"/>
+      </VBox.margin>
+      <font>
+         <Font size="16.0"/>
+      </font>
+   </Label>
+   <HBox maxWidth="500.0" prefWidth="500.0">
+      <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" text="Email address:" textAlignment="RIGHT"
+             wrapText="true">
+         <HBox.margin>
+            <Insets right="10.0"/>
+         </HBox.margin>
+         <font>
+            <Font size="16.0"/>
+         </font>
+      </Label>
+      <TextField fx:id="emailField" focusTraversable="false" maxWidth="400.0" prefWidth="400.0"
+                 promptText="ex. johndoe@genspark.net">
+         <font>
+            <Font size="16.0"/>
+         </font>
+      </TextField>
+   </HBox>
+   <HBox maxWidth="500.0" prefWidth="500.0">
+      <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" text="Phone number:" textAlignment="RIGHT"
+             wrapText="true">
+         <HBox.margin>
+            <Insets right="10.0"/>
+         </HBox.margin>
+         <font>
+            <Font size="16.0"/>
+         </font>
+      </Label>
+      <TextField fx:id="phoneNumberField" focusTraversable="false" maxWidth="400.0" prefWidth="400.0"
+                 promptText="XXX-XXX-XXXX">
+         <font>
+            <Font size="16.0"/>
+         </font>
+      </TextField>
+   </HBox>
+   <HBox maxWidth="500.0" prefWidth="500.0">
+      <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" text="Gender:" textAlignment="RIGHT"
+             wrapText="true">
+         <HBox.margin>
+            <Insets right="10.0"/>
+         </HBox.margin>
+         <font>
+            <Font size="16.0"/>
+         </font>
+      </Label>
+      <TextField fx:id="genderField" focusTraversable="false" maxWidth="400.0" prefWidth="400.0" promptText="M/F">
+         <font>
+            <Font size="16.0"/>
+         </font>
+      </TextField>
+   </HBox>
+
+   <Button fx:id="button" mnemonicParsing="false" onMouseClicked="#validateAdditionalInfo" text="Finalize trip">
+      <VBox.margin>
+         <Insets top="15.0"/>
+      </VBox.margin>
+   </Button>
+</VBox>

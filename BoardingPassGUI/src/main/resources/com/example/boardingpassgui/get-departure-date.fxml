@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox fx:id="vbox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="475.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boardingpassgui.Controllers.GetDepartureDate">
+    <Label prefHeight="77.0" prefWidth="344.0" text="Boarding Pass Generator">
+        <font>
+            <Font size="30.0"/>
+        </font>
+    </Label>
+    <HBox maxWidth="350.0" prefWidth="350.0">
+        <Label fx:id="label1" alignment="CENTER" prefHeight="40.0" prefWidth="600.0" textAlignment="CENTER"
+               wrapText="true">
+            <VBox.margin>
+                <Insets bottom="30.0"/>
+            </VBox.margin>
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <Button fx:id="edit1" maxHeight="40.0" minWidth="60.0" mnemonicParsing="false"
+                onMouseClicked="#editCityOfDeparture" text="Edit"/>
+    </HBox>
+    <HBox maxWidth="350.0" prefWidth="350.0">
+        <VBox.margin>
+            <Insets top="10.0"/>
+        </VBox.margin>
+        <Label fx:id="label2" alignment="CENTER" prefHeight="40.0" prefWidth="600.0" textAlignment="CENTER"
+               wrapText="true">
+            <font>
+                <Font size="16.0"/>
+            </font>
+            <VBox.margin>
+                <Insets bottom="30.0"/>
+            </VBox.margin>
+        </Label>
+        <Button fx:id="edit2" maxHeight="40.0" minWidth="60.0" mnemonicParsing="false"
+                onMouseClicked="#editCityOfArrival" text="Edit"/>
+    </HBox>
+    <Label alignment="CENTER" prefHeight="25.0" prefWidth="500.0" text="Enter your desired date of departure."
+           textAlignment="CENTER">
+        <font>
+            <Font size="14.0"/>
+        </font>
+        <VBox.margin>
+            <Insets bottom="15.0" right="10.0" top="20.0"/>
+        </VBox.margin>
+    </Label>
+    <TextField fx:id="textField" focusTraversable="false" maxWidth="300.0" prefWidth="300.0"
+               promptText="Enter date in YYYY-MM-DD format">
+        <VBox.margin>
+            <Insets bottom="10"/>
+        </VBox.margin>
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </TextField>
+    <Button fx:id="button" mnemonicParsing="false" onMouseClicked="#validateDate" text="Get flights"/>
+</VBox>
