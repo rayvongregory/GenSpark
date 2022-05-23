@@ -1,0 +1,9 @@
+In the event that a Human defeats a Goblin, two things will happen:
+1. The Goblin will drop all of their loot and the Human will have the opportunity to collect what they want
+from the pile and add them to their inventory.
+2. The Human's mental strength attribute will increase, which will improve their chances of surviving their
+subsequent battles.
+
+If a Goblin defeats a Human, two things will happen:
+1. The Goblin will receive the Human's entire inventory.
+2. The Goblin's aggression will increase, which will improve their chances of surviving their subsequent battles.
