@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"> <!-- bean definitions here -->
+        <context:component-scan base-package="org.annotationsHybrid"/> <!-- Enables component scanning-->
+
+        <!-- He calls this the hybrid approach, where we create beans to handle the dependencies in the xml file -->
+        <!-- For this method to work, you define the beans used for injection here and in the Class
+             that is accepting those beans, use the @Component for the class and @Autowired for
+             the non-simple data types (Strings and primitives), nothing else anywhere else -->
+        <!-- The beans below will be autowired to the Student bean-->
+        <bean id="Address" class="org.annotationsHybrid.Address">
+                <property name="city" value="Bloomfield" />
+                <property name="state" value="CT" />
+                <property name="country" value="US" />
+                <property name="zipcode" value="06002" />
+        </bean>
+
+        <bean id="Phone" class="org.annotationsHybrid.Phone">
+                <property name="mob" value="860-XXX-XXXX" />
+        </bean>
+</beans>

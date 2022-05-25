@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"> <!-- bean definitions here -->
+
+    <!--  Listing out the beans here quickly makes the project look like hot garbage, this is considered the legacy approach -->
+    <bean id="Address" class="org.xmlConfig.Address">
+        <property name="city" value="Hartford" />
+        <property name="state" value="CT" />
+        <property name="country" value="US" />
+        <property name="zipcode" value="06105" />
+    </bean>
+
+    <bean id="Address1" class="org.xmlConfig.Address">
+        <property name="city" value="Bloomfield" />
+        <property name="state" value="CT" />
+        <property name="country" value="US" />
+        <property name="zipcode" value="06002" />
+    </bean>
+
+    <bean id="Phone" class="org.xmlConfig.Phone">
+        <property name="mob" value="860-XXX-XXXX" />
+    </bean>
+
+    <bean id="Phone1" class="org.xmlConfig.Phone">
+        <property name="mob" value="860-XXX-XXXX" />
+    </bean>
+
+    <!--setter injection example -->
+    <bean id="Student" class="org.xmlConfig.Student"> <!--setter injection example -->
+        <property name="id" value="720481121" />
+        <property name="name" value="Rayvon Gregory" />
+        <property name="add" ref="Address" />
+        <property name="ph" ref="Phone" />
+    </bean>
+
+    <!--constructor injection example -->
+    <bean id="Student1" class="org.xmlConfig.Student">
+        <constructor-arg name="id" value="141049"/>
+        <constructor-arg name="name" value="Rayvon Gregory" />
+        <constructor-arg name="add" ref="Address1"/>
+        <constructor-arg name="ph" ref="Phone1" />
+    </bean>
+
+</beans>
